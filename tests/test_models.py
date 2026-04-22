@@ -3,7 +3,7 @@
 import numpy as np
 import numpy.testing as npt
 
-from inflammation.models import daily_mean
+from inflammation.models import daily_mean, daily_min
 
 def test_daily_mean_zeros():
     """Test that mean function works for an array of zeros."""
@@ -29,3 +29,13 @@ def test_daily_mean_integers():
     # Need to use Numpy testing functions to compare arrays
     npt.assert_array_equal(daily_mean(test_input), test_result)
 
+def test_daily_min_integers():
+    """Test that the min function works for an array of positive and negative intergers.
+    """
+
+    test_input = np.array([[1, 2, -1],
+                           [3, -2, 4],
+                           [5, -9, 6]])
+    test_result = np.array([1, -9, -1])
+    # Need to use Numpy testing functions to compare arrays
+    npt.assert_array_equal(daily_min(test_input), test_result)
