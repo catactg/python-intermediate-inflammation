@@ -26,6 +26,9 @@ def analyse_data(data_dir):
 
 
 class CSVDataSource:
+    """
+    Loads all the inflammation CSV files within a specified directory.
+    """
     def __init__(self, data_dir):
         self.data_dir = data_dir
 
