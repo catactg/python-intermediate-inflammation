@@ -32,3 +32,21 @@ def daily_min(data):
     """Calculate the daily min of a 2d inflammation data array."""
     return np.min(data, axis=0)
 
+
+class Patient:
+    def __init__(self, name: str, weight: float, height: float):
+        """Patient class
+
+        :param name: Name of patient
+        :param weight: Weight in kilograms
+        :param height: Height in meters
+        """
+        self.name = name
+        self.weight = weight
+        self.height = height
+
+    def get_body_mass_index(self):
+        """Compute body mass index: (weight in kg) / (height in meters)**2
+        """
+        return self.weight / self.height**2
+    
