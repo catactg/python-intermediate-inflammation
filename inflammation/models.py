@@ -10,6 +10,23 @@ and each column represents a single day across all patients.
 import numpy as np
 
 
+class Patient:
+    def __init__(self, name: str, weight: float, height: float):
+        """Patient class
+
+        :param name: Name of patient
+        :param weight: Weight in kilograms
+        :param height: Height in meters
+        """
+        self.name = name
+        self.weight = weight
+        self.height = height
+
+    def get_body_mass_index(self):
+        """Compute body mass index: (weight in kg) / (height in meters)**2
+        """
+        return self.weight / self.height**2
+
 def load_csv(filename):  
     """Load a Numpy array from a CSV
 
@@ -45,20 +62,4 @@ def daily_min(data):
     return np.min(data, axis=0)
 
 
-class Patient:
-    def __init__(self, name: str, weight: float, height: float):
-        """Patient class
-
-        :param name: Name of patient
-        :param weight: Weight in kilograms
-        :param height: Height in meters
-        """
-        self.name = name
-        self.weight = weight
-        self.height = height
-
-    def get_body_mass_index(self):
-        """Compute body mass index: (weight in kg) / (height in meters)**2
-        """
-        return self.weight / self.height**2
     
