@@ -28,7 +28,13 @@ def main(args):
 
         views.visualize(view_data)
 
-    data_source = analysis.CSVDataSource(os.path.dirname(in_files[0]))
+    _, extension = os.path.splitext(in_files[0])
+    if extension == '.json':
+        data_source = analysis.JSONDataSource(os.path.dirname(in_files[0]))
+    elif extension == '.csv':
+        data_source = analysis.CSVDataSource(os.path.dirname(in_files[0]))
+    else:
+        raise ValueError(f'Unsupported data file format: {extension}')
     analysis.analyse_data(data_source)
 
 if __name__ == "__main__":

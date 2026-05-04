@@ -1,5 +1,4 @@
-"""Module containing mechanism for calculating standard deviation between datasets.
-"""
+"""Module containing mechanism for calculating standard deviation between datasets."""
 
 import glob
 import os
@@ -7,20 +6,42 @@ import numpy as np
 
 from inflammation import models, views
 
+
 class CSVDataSource:
     """
     Loads all the inflammation CSV files within a specified directory.
     """
+
     def __init__(self, data_dir):
         self.data_dir = data_dir
 
     def load_inflammation_data(self):
-        data_file_paths = glob.glob(os.path.join(self.data_dir, 'inflammation*.csv'))
+        data_file_paths = glob.glob(os.path.join(self.data_dir, "inflammation*.csv"))
         if len(data_file_paths) == 0:
-            raise ValueError(f"No inflammation data CSV files found in path {self.data_dir}")
+            raise ValueError(
+                f"No inflammation data CSV files found in path {self.data_dir}"
+            )
         data = map(models.load_csv, data_file_paths)
         return list(data)
-    
+
+
+class JSONDataSource:
+    """
+    Loads patient data with inflammation values from JSON files within a specified folder.
+    """
+
+    def __init__(self, dir_path):
+        self.dir_path = dir_path
+
+    def load_inflammation_data(self):
+        data_file_paths = glob.glob(os.path.join(self.dir_path, "inflammation*.json"))
+        if len(data_file_paths) == 0:
+            raise ValueError(
+                f"No inflammation JSON files found in path {self.dir_path}"
+            )
+        data = map(models.load_json, data_file_paths)
+        return list(data)
+
 
 def analyse_data(data_source):
     """Calculates the standard deviation by day between datasets.
@@ -36,5 +57,3 @@ def analyse_data(data_source):
     daily_standard_deviation = np.std(means_by_day_matrix, axis=0)
 
     return daily_standard_deviation
-
-
