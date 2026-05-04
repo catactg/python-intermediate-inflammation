@@ -22,13 +22,12 @@ class CSVDataSource:
         return list(data)
     
 
-def analyse_data(data_dir):
+def analyse_data(data_source):
     """Calculates the standard deviation by day between datasets.
 
     Gets all the inflammation data from CSV files within a directory,
     works out the mean inflammation value for each day across all datasets,
     then plots the graphs of standard deviation of these means."""
-    data_source = CSVDataSource(data_dir)
     data = data_source.load_inflammation_data()
 
     means_by_day = map(models.daily_mean, data)
