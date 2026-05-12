@@ -5,30 +5,17 @@ import numpy.testing as npt
 import pytest
 from inflammation.models import daily_mean, daily_max, daily_min
 
-def test_daily_mean_zeros():
-    """Test that mean function works for an array of zeros."""
-    
-
-    test_input = np.array([[0, 0],
-                           [0, 0],
-                           [0, 0]])
-    test_result = np.array([0, 0])
-
-    # Need to use Numpy testing functions to compare arrays
+@pytest.mark.parametrize(
+        "test_input, test_result",
+        [
+            ([ [0, 0], [0, 0], [0, 0] ], [0, 0]),
+            ([ [1, 2], [3, 4], [5, 6] ], [3, 4]),
+            (np.zeros((3, 5)), np.zeros(5)),
+            ([[1, 2, 3]], [1, 2, 3]),
+        ])
+def test_daily_mean(test_input, test_result): # add input arguments from the parametrize decorator
+    """Test that mean function works for an array of zeros and positive integers."""
     npt.assert_array_equal(daily_mean(test_input), test_result)
-
-
-def test_daily_mean_integers():
-    """Test that mean function works for an array of positive integers."""
-
-    test_input = np.array([[1, 2],
-                           [3, 4],
-                           [5, 6]])
-    test_result = np.array([3, 4])
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_mean(test_input), test_result)
-
 
 def test_daily_mean_string():
     """Test that the mean function fails for an array of strings
