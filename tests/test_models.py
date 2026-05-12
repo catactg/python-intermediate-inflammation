@@ -5,7 +5,7 @@ import numpy.testing as npt
 import pytest
 import os
 from inflammation.models import daily_mean, daily_max, daily_min
-from inflammation.analysis import analyse_data
+from inflammation.analysis import analyse_data, CSVDataSource
 
 
 @pytest.mark.parametrize(
@@ -78,7 +78,8 @@ def test_daily_min(test_input, test_result):
 
 def test_analyse_data():
     path = os.path.join(os.getcwd(), "data")
-    result = analyse_data(path)
+    data_source = CSVDataSource(path)
+    result = analyse_data(data_source)
     expected_result = [
         0.0,
         0.22510286,
