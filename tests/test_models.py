@@ -23,13 +23,15 @@ def test_daily_mean_string():
     with pytest.raises(TypeError):
         error_expected = daily_mean(['hi','there'])
 
-def test_daily_max_integers():
-    """Test that the max function works for an array of positive integers.
-    """
+@pytest.mark.parametrize(
+        "test_input, test_result",
+        [
+            ([[1, 2], [3, 4], [5, 6]], [5, 6]),
+            ([[1, 2, -9], [-3, 4, -2], [-1, 5, -6]], [1, 5, -2]),
+        ])
 
-    test_input = np.array([[1, 2, -9], [-3, 4, -2], [-1, 5, -6]])
-    test_result = np.array([1, 5, -2])              
-
+def test_daily_max(test_input, test_result):
+    """Test that max function works for an array of positive and negative integers."""
     npt.assert_array_equal(daily_max(test_input), test_result)
 
 def test_daily_max_string():
