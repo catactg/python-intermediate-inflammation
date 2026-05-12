@@ -8,8 +8,10 @@ and each column represents a single day across all patients.
 """
 
 import numpy as np
+import json
 
-class Patient:         
+
+class Patient:
     def __init__(self, name, weight, height):
         """Patient class
 
@@ -21,11 +23,9 @@ class Patient:
         self.weight = weight
         self.height = height
 
-    def get_body_mass_index(self):   
+    def get_body_mass_index(self):
         """Compute body mass index: weight_in_kg / height_in_meters**2"""
         return self.weight / self.height**2
-     
-
 
 
 def load_csv(filename):
@@ -34,6 +34,25 @@ def load_csv(filename):
     :param filename: Filename of CSV to load
     """
     return np.loadtxt(fname=filename, delimiter=",")
+
+
+def load_json(filename):
+    """Load a numpy array from a JSON document.
+
+    Expected format:
+    [
+      {
+        "observations": [0, 1]
+      },
+      {
+        "observations": [0, 2]
+      }
+    ]
+    :param filename: Filename of CSV to load
+    """
+    with open(filename, "r", encoding="utf-8") as file:
+        data_as_json = json.load(file)
+        return [np.array(entry["observations"]) for entry in data_as_json]
 
 
 def daily_mean(data: np.ndarray) -> np.ndarray:
