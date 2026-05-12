@@ -5,6 +5,17 @@ import argparse
 import os
 from inflammation import models, views, analysis
 
+def summarise_patient(inflammation_data, patient_index):
+    """Print a summary of a single patient's inflammation data.
+
+    :param inflammation_data: 2D NumPy array of inflammation readings
+    :param patient_index: Row index of the patient to summarise
+    """
+    row = inflammation_data[patient_index]
+    print(f"Patient {patient_index}: "
+          f"mean={row.mean():.2f}, "
+          f"max={row.max():.0f}, "
+          f"min={row.min():.0f}")
 
 def main(args):
     """The MVC Controller of the patient inflammation data system.
@@ -19,6 +30,8 @@ def main(args):
 
     for filename in infiles:
         inflammation_data = models.load_csv(filename)
+        if args.patient is not None:
+            summarise_patient(inflammation_data, args.patient)
 
         view_data = {
             "average": models.daily_mean(inflammation_data),
@@ -58,6 +71,11 @@ if __name__ == "__main__":
         help="Output directory to save figures as PNG",
     )
 
+    parser.add_argument(
+        "-patient",
+        type=int,
+        help="Row index (0-based) of the patient to summarise",
+    )
     args = parser.parse_args()
 
     main(args)

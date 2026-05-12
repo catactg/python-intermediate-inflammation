@@ -19,14 +19,31 @@ class Patient:
         :param weight: Weight in kilograms
         :param height: Height in meters
         """
+        if weight <= 0:
+            raise ValueError("weight must be a positive number")
+        if height <= 0:
+            raise ValueError("height must be a positive number")
         self.name = name
         self.weight = weight
         self.height = height
 
     def get_body_mass_index(self):
         """Compute body mass index: weight_in_kg / height_in_meters**2"""
-        return self.weight / self.height**2
+        return compute_bmi(self.weight, self.height)
+    
+    def is_overweight(self):
+        """Return True if patient BMI is above 25, False otherwise."""
+        return self.get_body_mass_index() > 25
 
+
+def compute_bmi(weight: float, height: float) -> float:
+    """Calculate body mass index from weight and height.
+
+    :param weight: Weight in kilograms
+    :param height: Height in meters
+    :return: Body mass index (kg/m²)
+    """
+    return weight / height ** 2
 
 def load_csv(filename):
     """Load a Numpy array from a CSV
