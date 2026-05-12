@@ -25,16 +25,20 @@ def main(args):
             "max": models.daily_max(inflammation_data),
             "min": models.daily_min(inflammation_data),
         }
-
-        views.visualize(view_data)
+        outfile = os.path.basename(filename).replace(".csv", ".png")
+        if args.outdir is None:
+            outpath = None
+        else:
+            outpath = os.path.join(args.outdir, outfile)
+        views.visualize(view_data, outpath)
 
     _, extension = os.path.splitext(infiles[0])
-    if extension == '.json':
+    if extension == ".json":
         data_source = analysis.JSONDataSource(os.path.dirname(infiles[0]))
-    elif extension == '.csv':
+    elif extension == ".csv":
         data_source = analysis.CSVDataSource(os.path.dirname(infiles[0]))
     else:
-        raise ValueError(f'Unsupported data file format: {extension}')
+        raise ValueError(f"Unsupported data file format: {extension}")
     analysis.analyse_data(data_source)
 
 
@@ -47,6 +51,11 @@ if __name__ == "__main__":
         "infiles",
         nargs="+",
         help="Input CSV(s) containing inflammation series for each patient",
+    )
+
+    parser.add_argument(
+        "-outdir",
+        help="Output directory to save figures as PNG",
     )
 
     args = parser.parse_args()
